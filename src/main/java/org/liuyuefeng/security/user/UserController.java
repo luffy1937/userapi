@@ -12,6 +12,8 @@ import java.util.List;
 public class UserController {
     @Autowired
     JdbcTemplate jdbcTemplate;
+    @Autowired
+    UserRepository userRepository;
     @PostMapping
     public User create(@RequestBody User user){
         return user;
@@ -29,9 +31,10 @@ public class UserController {
         return new User();
     }
     @GetMapping()
-    public List query(String name){
-        String sql = "select id,name From user where name = '" + name + "'";
+    public List<User> query(String name){
+/*        String sql = "select id,name From user where name = '" + name + "'";
         List data = jdbcTemplate.queryForList(sql);
-        return data;
+        return data;*/
+        return userRepository.findByName(name);
     }
 }
