@@ -11,30 +11,29 @@ import java.util.List;
 @RequestMapping("/users")
 public class UserController {
     @Autowired
-    JdbcTemplate jdbcTemplate;
-    @Autowired
-    UserRepository userRepository;
+    UserService userService;
     @PostMapping
-    public User create(@RequestBody User user){
-        return user;
+    public UserInfo create(@RequestBody UserInfo user){
+
+        return userService.create(user);
     }
     @PutMapping("/{id}")
-    public User update(@RequestBody User user){
-        return user;
+    public UserInfo update(@RequestBody UserInfo user){
+
+        return userService.update(user);
     }
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Long id){
-
+        userService.delete(id);
     }
     @GetMapping("/{id}")
-    public User get(@PathVariable Long id){
-        return new User();
+    public UserInfo get(@PathVariable Long id){
+
+        return userService.get(id);
     }
     @GetMapping()
-    public List<User> query(String name){
-/*        String sql = "select id,name From user where name = '" + name + "'";
-        List data = jdbcTemplate.queryForList(sql);
-        return data;*/
-        return userRepository.findByName(name);
+    public List<UserInfo> query(String name){
+
+        return userService.query(name);
     }
 }
