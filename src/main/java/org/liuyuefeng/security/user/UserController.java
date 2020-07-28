@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,8 +28,11 @@ public class UserController {
         userService.delete(id);
     }
     @GetMapping("/{id}")
-    public UserInfo get(@PathVariable Long id){
-
+    public UserInfo get(@PathVariable Long id, HttpServletRequest httpServletRequest){
+        User user = (User)  httpServletRequest.getAttribute("user");
+        if(user == null || !user.getId().equals(id)){
+            throw new RuntimeException("身份认证信息异常，获取用户信息失败");
+        }
         return userService.get(id);
     }
     @GetMapping()

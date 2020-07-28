@@ -29,7 +29,7 @@ public class UserServiceImpl implements UserService{
     }
 
     public UserInfo get(Long id) {
-        return null;
+        return userRepository.findById(id).get().buildInfo();
     }
 
     public List<UserInfo> query(String name) {
