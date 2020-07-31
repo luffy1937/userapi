@@ -13,10 +13,12 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @Component
+@Order(1)
 public class RateLimitFilter extends OncePerRequestFilter {
     // 每秒一个
     private RateLimiter rateLimiter = RateLimiter.create(1);
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+        System.out.println("RateLimitFilter");
         if(rateLimiter.tryAcquire()){
             filterChain.doFilter(request, response);
         }else {
