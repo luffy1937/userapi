@@ -30,9 +30,13 @@ public class UserController {
     @GetMapping("/{id}")
     public UserInfo get(@PathVariable Long id, HttpServletRequest httpServletRequest){
         User user = (User)  httpServletRequest.getAttribute("user");
+        System.out.println("controller:" + user);
         if(user == null || !user.getId().equals(id)){
             throw new RuntimeException("身份认证信息异常，获取用户信息失败");
         }
+        UserInfo userInfo;
+        userInfo = userService.get(id);
+        System.out.println(userInfo.toString());
         return userService.get(id);
     }
     @GetMapping()

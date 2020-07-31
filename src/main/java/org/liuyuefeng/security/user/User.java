@@ -15,7 +15,7 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-    private String username;
+    private String userName;
     private String password;
     public UserInfo buildInfo(){
         UserInfo userInfo = new UserInfo();
