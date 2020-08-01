@@ -17,10 +17,12 @@ public class AuditLogInterceptor extends HandlerInterceptorAdapter {
         AuditLog log = new AuditLog();
         log.setMethod(request.getMethod());
         log.setPath(request.getRequestURI());
+/*        通过AuditAware 和 @CreateBy 填充用户名
         User user = (User)request.getAttribute("user");
         if(user != null){
             log.setUsername(user.getUserName());
-        }
+        }*/
+
         auditLogRepository.save(log);
         request.setAttribute("auditLogId", log.getId());
         return true;

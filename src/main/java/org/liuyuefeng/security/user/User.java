@@ -2,6 +2,7 @@ package org.liuyuefeng.security.user;
 
 import lombok.Data;
 import org.springframework.beans.BeanUtils;
+import org.springframework.data.annotation.CreatedBy;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
