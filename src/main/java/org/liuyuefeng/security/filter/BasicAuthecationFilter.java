@@ -1,5 +1,6 @@
 package org.liuyuefeng.security.filter;
 
+import com.lambdaworks.crypto.SCryptUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.liuyuefeng.security.user.User;
 import org.liuyuefeng.security.user.UserRepository;
@@ -32,9 +33,11 @@ public class BasicAuthecationFilter extends OncePerRequestFilter{
             String password = items[1];
             User user = userRepository.findByUsername(username);
             System.out.println("filter:" + user);
-            if(user != null && StringUtils.equals(password, user.getPassword())){
+            if(user != null && SCryptUtil.check(password, user.getPassword())){
                 httpServletRequest.setAttribute("user", user);
                 System.out.println("认证success");
+            } else {
+                System.out.println("认证失败");
             }
             filterChain.doFilter(httpServletRequest, httpServletResponse);
         }
