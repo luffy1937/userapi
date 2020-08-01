@@ -2,6 +2,7 @@ package org.liuyuefeng.security.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -14,8 +15,7 @@ public class UserController {
     @Autowired
     UserService userService;
     @PostMapping
-    public UserInfo create(@RequestBody UserInfo user){
-
+    public UserInfo create(@RequestBody @Validated UserInfo user){
         return userService.create(user);
     }
     @PutMapping("/{id}")
