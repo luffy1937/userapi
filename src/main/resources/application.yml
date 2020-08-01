@@ -9,3 +9,9 @@ spring:
   jpa:
     generate-ddl: true
     show-sql: true
+server:
+  ssl:
+    # keytool -genkeypair -alias liu -keyalg RSA -keystore /d/cucc/2i/userapi/keys/liu.key
+    key-store: classpath:liu.key
+    key-password: aaaaaa
+    key-store-password: aaaaaa
