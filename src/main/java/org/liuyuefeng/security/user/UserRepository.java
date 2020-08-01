@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface UserRepository extends JpaSpecificationExecutor<User>, CrudRepository<User, Long> {
     List<User> findByName(String name);
-    User findByUserName(String name);
+    User findByUsername(String name);
 }

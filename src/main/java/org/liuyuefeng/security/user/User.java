@@ -4,10 +4,7 @@ import lombok.Data;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.annotation.CreatedBy;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 
 @Data
@@ -17,8 +14,10 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
+    //NotBlank是应用层面，nullable是数据库层面
     @NotBlank(message = "用户名不能为空")
-    private String userName;
+    @Column(unique = true, nullable = true)
+    private String username;
     @NotBlank(message = "密码不能为空")
     private String password;
     public UserInfo buildInfo(){

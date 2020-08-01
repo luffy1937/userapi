@@ -30,7 +30,7 @@ public class BasicAuthecationFilter extends OncePerRequestFilter{
             String[] items = StringUtils.splitByWholeSeparatorPreserveAllTokens(token, ":");
             String username = items[0];
             String password = items[1];
-            User user = userRepository.findByUserName(username);
+            User user = userRepository.findByUsername(username);
             System.out.println("filter:" + user);
             if(user != null && StringUtils.equals(password, user.getPassword())){
                 httpServletRequest.setAttribute("user", user);
