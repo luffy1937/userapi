@@ -6,7 +6,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @RestController
@@ -14,6 +14,19 @@ import java.util.List;
 public class UserController {
     @Autowired
     UserService userService;
+
+    @GetMapping("/login")
+    public void login( @Validated UserInfo user, HttpServletRequest request){
+        UserInfo info = userService.login(user);
+        //每次登陆，更新session;避免sesion攻击：即blackman写入自己的sessionid到被攻击者，被攻击者登陆后将用户信息与此sessionId绑定，是的blackman获取权限
+        HttpSession session = request.getSession(false);
+        if(session != null){
+            session.invalidate();
+        }
+        request.getSession(true).setAttribute("user", info);
+
+    }
+
     @PostMapping
     public UserInfo create(@RequestBody @Validated UserInfo user){
         return userService.create(user);
