@@ -1,5 +1,6 @@
 package org.liuyuefeng.security.config;
 
+import org.liuyuefeng.security.audit.AclInterceptor;
 import org.liuyuefeng.security.audit.AuditLogInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -14,9 +15,13 @@ import java.util.Optional;
 public class SecurityConfig implements WebMvcConfigurer {
     @Autowired
     AuditLogInterceptor auditLogInterceptor;
+    @Autowired
+    AclInterceptor aclInterceptor;
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
+        //注册顺序也是执行顺序
         registry.addInterceptor(auditLogInterceptor);
+        registry.addInterceptor(aclInterceptor);
     }
     @Bean
     public AuditorAware<String> auditorAware(){
