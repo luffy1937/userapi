@@ -14,6 +14,7 @@ import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 @Component
@@ -34,12 +35,21 @@ public class BasicAuthecationFilter extends OncePerRequestFilter{
             User user = userRepository.findByUsername(username);
             System.out.println("filter:" + user);
             if(user != null && SCryptUtil.check(password, user.getPassword())){
-                httpServletRequest.setAttribute("user", user);
+                //httpServletRequest.setAttribute("user", user);
+                httpServletRequest.getSession().setAttribute("user", user.buildInfo());
+                httpServletRequest.getSession().setAttribute("temp", "yes");
                 System.out.println("认证success");
             } else {
                 System.out.println("认证失败");
             }
-            filterChain.doFilter(httpServletRequest, httpServletResponse);
+            try{
+                filterChain.doFilter(httpServletRequest, httpServletResponse);
+            } finally {
+                HttpSession session = httpServletRequest.getSession();
+                if(session.getAttribute("temp").equals("yes")){
+                    session.invalidate();
+                }
+            }
         }
     }
 }

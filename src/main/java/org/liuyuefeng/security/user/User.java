@@ -27,13 +27,4 @@ public class User {
         BeanUtils.copyProperties(this, userInfo);
         return userInfo;
     }
-    public boolean hasPermission(String method){
-        boolean result = false;
-        if(StringUtils.equalsIgnoreCase("get", method)){
-            result = StringUtils.contains(permissions, "r");
-        }else {
-            result = StringUtils.contains(permissions, "w");
-        }
-        return result;
-    }
 }

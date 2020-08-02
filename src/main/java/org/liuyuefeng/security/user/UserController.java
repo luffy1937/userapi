@@ -24,7 +24,10 @@ public class UserController {
             session.invalidate();
         }
         request.getSession(true).setAttribute("user", info);
-
+    }
+    @GetMapping("/logout")
+    public void logout(HttpServletRequest request){
+        request.getSession().invalidate();
     }
 
     @PostMapping
@@ -42,14 +45,11 @@ public class UserController {
     }
     @GetMapping("/{id}")
     public UserInfo get(@PathVariable Long id, HttpServletRequest httpServletRequest){
-        User user = (User)  httpServletRequest.getAttribute("user");
-        System.out.println("controller:" + user);
-        if(user == null || !user.getId().equals(id)){
+        UserInfo userInfo = (UserInfo)  httpServletRequest.getSession().getAttribute("user");
+        System.out.println("controller:" + userInfo);
+        if(userInfo == null || !userInfo.getId().equals(id)){
             throw new RuntimeException("身份认证信息异常，获取用户信息失败");
         }
-        UserInfo userInfo;
-        userInfo = userService.get(id);
-        System.out.println(userInfo.toString());
         return userService.get(id);
     }
     @GetMapping()
